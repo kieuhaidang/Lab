@@ -1,39 +1,35 @@
 import 'models/product.dart';
-import 'repositories/product_repository.dart';
 
-void main() async {
-  // Create repository
-  ProductRepository repository = ProductRepository();
+void main() {
+  print("=== Danh sách ban đầu ===");
+  Product.products.forEach(print);
 
-  // Listen to real-time added products
-  repository.liveAdded().listen((product) {
-    print('New product added: $product');
-  });
-
-  // Add products
-  repository.addProduct(
-    Product(id: 1, name: 'Laptop', price: 1200),
+  Product.add(
+    Product(
+      id: "P04",
+      name: "Mouse",
+      image: "mouse.png",
+      price: 100,
+    ),
   );
 
-  repository.addProduct(
-    Product(id: 2, name: 'Mouse', price: 25),
+  Product.edit(
+    Product(
+      id: "P02",
+      name: "IPhone 15",
+      image: "iphone15.png",
+      price: 1200,
+    ),
   );
 
-  repository.addProduct(
-    Product(id: 3, name: 'Keyboard', price: 80),
-  );
+  print("\n=== Search Name ===");
+  Product.searchByName("phone").forEach(print);
 
-  print('\nFetching all products...\n');
+  print("\n=== Find By ID ===");
+  print(Product.findById("P02"));
 
-  // Get all products
-  List<Product> products = await repository.getAll();
+  Product.increasePrice();
 
-  // Print product list
-  print('All Products:');
-  for (var product in products) {
-    print(product);
-  }
-
-  // Close stream
-  repository.dispose();
+  print("\n=== Sau khi tăng giá 10% ===");
+  Product.products.forEach(print);
 }
